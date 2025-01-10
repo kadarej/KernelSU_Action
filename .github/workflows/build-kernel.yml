@@ -212,11 +212,11 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         if [ ${{ env.BUILD_TYPE_MIUI }} = true ]; then
-            build_typee=MIUI
+            echo "BUILDTYPE=MIUI" >> $GITHUB_ENV
             sed -i 's/qcom,mdss-pan-physical-width-dimension = <147>;$/qcom,mdss-pan-physical-width-dimension = <1474>;/' arch/arm64/boot/dts/qcom/dsi-panel-k82-42-02-0a-video.dtsi
             sed -i 's/qcom,mdss-pan-physical-height-dimension = <236>;$/qcom,mdss-pan-physical-height-dimension = <2359>;/' arch/arm64/boot/dts/qcom/dsi-panel-k82-42-02-0a-video.dtsi
         else
-            build_typee=AOSP
+            echo "BUILDTYPE=AOSP" >> $GITHUB_ENV
         fi
         if [ ${{ env.APPLY_KSU_PATCH }} = true ]; then
             bash $GITHUB_WORKSPACE/patches/patches.sh
@@ -361,7 +361,7 @@ jobs:
       if: env.CHECK_FILE_IS_OK == 'true'
       uses: actions/upload-artifact@v4
       with:
-        name: Rave${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}-${{ env.DEVICE }}-${{ env.build_typee }}-${{ env.BUILD_TIME }}
+        name: Rave${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}-${{ env.DEVICE }}-${{ env.BUILDTYPE }}-${{ env.BUILD_TIME }}
         path: kernel_workspace/AnyKernel3/*
 
     - name: Upload DTBO image
