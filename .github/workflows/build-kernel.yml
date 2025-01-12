@@ -204,7 +204,7 @@ jobs:
       if: env.ENABLE_KERNELSU == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        curl -LSs "https://raw.githubusercontent.com/sidex15/KernelSU-Next/next-non-gki-susfs/kernel/setup.sh" | bash -s next-non-gki-susfs
+        curl -LSs "https://raw.githubusercontent.com/kadarej/KernelSU_Action/main/susfsnongki.sh" | bash -s next-non-gki-susfs
         KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
 
