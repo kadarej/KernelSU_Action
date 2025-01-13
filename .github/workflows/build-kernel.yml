@@ -291,7 +291,7 @@ jobs:
                exit 1
            fi
        fi
-       if [ -f android-kernel/out/arch/${{ env.ARCH }}/boot/dtb ]; then
+       if [ -f android-kernel/out/arch/${{ env.ARCH }}/boot/dtb.img ]; then
                echo "CHECK_DTB_IS_OK=true" >> $GITHUB_ENV
        fi
        find android-kernel/out/arch/${{ env.ARCH }}/ -name *dtb*
@@ -361,7 +361,7 @@ jobs:
       if: env.CHECK_FILE_IS_OK == 'true'
       uses: actions/upload-artifact@v4
       with:
-        name: Rave${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}-${{ env.DEVICE }}-${{ env.BUILDTYPE }}-${{ env.BUILD_TIME }}
+        name: ${{ env.CUSTOM_ANYKERNEL3_BRANCH }}${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}-${{ env.DEVICE }}-${{ env.BUILDTYPE }}-${{ env.BUILD_TIME }}
         path: kernel_workspace/AnyKernel3/*
 
     - name: Upload DTBO image
@@ -376,7 +376,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: dtb-${{ env.DEVICE }}-${{ env.BUILD_TIME }}-${{ env.BUILDTYPE }}
-        path: kernel_workspace/android-kernel/out/arch/${{ env.ARCH }}/boot/dtb
+        path: kernel_workspace/android-kernel/out/arch/${{ env.ARCH }}/boot/dtb.img
 
     - name: Upload boot image
       if: env.MAKE_BOOT_IMAGE_IS_OK == 'true'
