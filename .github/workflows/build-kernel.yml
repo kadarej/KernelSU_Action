@@ -291,7 +291,7 @@ jobs:
                exit 1
            fi
        fi
-       if [ -f android-kernel/out/arch/${{ env.ARCH }}/boot/dtb ]; then
+       if [ -f android-kernel/out/arch/${{ env.ARCH }}/boot/dtb ] or [ -f android-kernel/out/arch/${{ env.ARCH }}/boot/dtb.img ]; then
                echo "CHECK_DTB_IS_OK=true" >> $GITHUB_ENV
        fi
        find android-kernel/out/arch/${{ env.ARCH }}/ -name *dtb*
@@ -334,7 +334,11 @@ jobs:
             cp android-kernel/out/arch/${{ env.ARCH }}/boot/dtbo.img AnyKernel3/
         fi
         if [ ${{ env.CHECK_DTB_IS_OK }} = true ]; then
-            cp android-kernel/out/arch/${{ env.ARCH }}/boot/dtb AnyKernel3/
+            if [ -f android-kernel/out/arch/${{ env.ARCH }}/boot/dtb ]; then
+                cp android-kernel/out/arch/${{ env.ARCH }}/boot/dtb AnyKernel3/
+            else
+                cp android-kernel/out/arch/${{ env.ARCH }}/boot/dtb.img AnyKernel3/dtb
+            fi
         fi
         rm -rf AnyKernel3/.git* AnyKernel3/README.md
 
