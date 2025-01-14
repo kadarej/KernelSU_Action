@@ -377,13 +377,6 @@ jobs:
         name: dtbo-${{ env.DEVICE }}-${{ env.BUILD_TIME }}-${{ env.BUILDTYPE }}
         path: kernel_workspace/android-kernel/out/arch/${{ env.ARCH }}/boot/dtbo.img
 
-    - name: Upload DTB image
-      if: env.CHECK_DTB_IS_OK == 'true'
-      uses: actions/upload-artifact@v4
-      with:
-        name: dtb-${{ env.DEVICE }}-${{ env.BUILD_TIME }}-${{ env.BUILDTYPE }}
-        path: kernel_workspace/android-kernel/out/arch/${{ env.ARCH }}/boot/dtb.img
-
     - name: Upload boot image
       if: env.MAKE_BOOT_IMAGE_IS_OK == 'true'
       uses: actions/upload-artifact@v4
