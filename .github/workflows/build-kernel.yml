@@ -181,6 +181,8 @@ jobs:
                 mv -f "$(find ./gcc-32 -mindepth 1  -maxdepth 1 -type d)"/* ./gcc-32
             fi
         fi
+        echo "GCC_64=CROSS_COMPILE=$GITHUB_WORKSPACE/kernel_workspace/gcc-64/bin/aarch64-linux-gnu-" >> $GITHUB_ENV
+        echo "GCC_32=CROSS_COMPILE=$GITHUB_WORKSPACE/kernel_workspace/gcc-32/bin/arm-linux-gnueabihf-" >> $GITHUB_ENV
 
     - name: Download mkbootimg tools
       if: env.BUILD_BOOT_IMG == 'true'
