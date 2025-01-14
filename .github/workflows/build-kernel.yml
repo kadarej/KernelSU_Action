@@ -292,7 +292,7 @@ jobs:
            fi
        fi
        if [ -f android-kernel/out/arch/${{ env.ARCH }}/boot/dtb ] or [ -f android-kernel/out/arch/${{ env.ARCH }}/boot/dtb.img ]; then
-               echo "CHECK_DTB_IS_OK=true" >> $GITHUB_ENV
+           echo "CHECK_DTB_IS_OK=true" >> $GITHUB_ENV
        fi
        find android-kernel/out/arch/${{ env.ARCH }}/ -name *dtb*
        echo "ls /boot ^^^"
