@@ -126,6 +126,7 @@ jobs:
         curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next-susfs/kernel/setup.sh" | bash -s next-susfs
         KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
+        patch -p1 < $GITHUB_WORKSPACE/patches/0001-kernel-patch-susfs-v1.5.5-to-KernelSU-Next-7746569fe.patch
 
     - name: Setup Configuration for Kernel
       run: |
