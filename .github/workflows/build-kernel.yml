@@ -128,6 +128,7 @@ jobs:
         KSU_VERSION=$(cd KernelSU-Next && expr $(/usr/bin/git rev-list --count HEAD) + 10200)
         echo "UPLOADNAME=-KernelSU_$KSU_VERSION" >> $GITHUB_ENV
         echo "CONFIG_WITH_KPROBES=n" >> arch/${{ env.ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+        bash $GITHUB_WORKSPACE/patches/patches.sh
         patch -p1 < $GITHUB_WORKSPACE/patches/0001-kernel-patch-susfs-v1.5.5-to-KernelSU-Next-7a08683c7.patch
     - name: Setup Configuration for Kernel
       run: |
