@@ -89,19 +89,12 @@ jobs:
         if: github.event.inputs.SUSFS_ENABLED == 'true'
         run: |
           cd kernel_workspace
-          git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
           git clone https://github.com/cabagekiller/kernel_patches.git
           cd kernel_platform
-          cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch ./common/
           cp ../kernel_patches/next/syscall_hooks.patch ./common/
-          cp ../kernel_patches/69_hide_stuff.patch ./common/
-          cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
-          cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
-          cd ./KernelSU-Next
+          cd ./KernelSU
           cd ../common
           patch -p1 --forward < syscall_hooks.patch
-          patch -p1 < 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
-          patch -p1 -F 3 < 69_hide_stuff.patch
           git add -A && git commit -a -m "BUILD Kernel"
           cd ..
           cd ./msm-kernel && git add -A && git commit -a -m "BUILD Kernel"
@@ -111,6 +104,7 @@ jobs:
         run: |
           ls -a
           ls -a ./common
+          echo "CONFIG_KSU_ALLOWLIST_WORKAROUND=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_OVERLAY_FS=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_KPROBES=y" >> ./common/arch/arm64/configs/gki_defconfig
