@@ -80,7 +80,7 @@ jobs:
         if: github.event.inputs.KSUNEXT_ENABLED == 'true'
         run: |
           cd kernel_workspace/kernel_platform
-          curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next-susfs
+          curl -LSs "https://raw.githubusercontent.com/kadarej/KernelSU-Next/next/kernel/setup.sh" | bash -s next-susfs
           cd KernelSU-Next
           KSU_VERSION=$(expr $(/usr/bin/git rev-list --count HEAD) "+" 10200)
           echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
@@ -134,8 +134,6 @@ jobs:
           echo "CONFIG_IP6_NF_MATCH_HL=y" >> ./common/arch/arm64/configs/gki_defconfig
           # Remove defconfig check
           sed -i '2s/check_defconfig//' ./common/build.config.gki
-          export KSU_EXPECTED_SIZE=0x368
-          export KSU_EXPECTED_HASH=b8b4386699b422092f924261e5e3b584c9b42b04224e52ce97a0f9d2ba573b6f
       - name: Build kernel
         run: |
           cd kernel_workspace
