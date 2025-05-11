@@ -1,4 +1,4 @@
-name: ksunext For OP12r Release
+name: Build Kernel Next-SUSFS For OP12r Release
 on:
   workflow_dispatch:
     inputs:
@@ -70,17 +70,17 @@ jobs:
           sed -i 's/ -dirty//g' kernel_platform/msm-kernel/scripts/setlocalversion
           sed -i '$s|echo "\$res"|echo "$res-cabage"|' kernel_platform/common/scripts/setlocalversion
           sed -i '$s|echo "\$res"|echo "$res-cabage"|' kernel_platform/msm-kernel/scripts/setlocalversion
-      - name: Set LTO to full
+      - name: Set LTO to THIN
         run: |
           cd kernel_workspace/kernel_platform
           sed -i 's/CONFIG_LTO=n/CONFIG_LTO=y/' "./common/arch/arm64/configs/gki_defconfig"
-          sed -i 's/CONFIG_LTO_CLANG_FULL=n/CONFIG_LTO_CLANG_FULL=y/' "./common/arch/arm64/configs/gki_defconfig"
-          sed -i 's/CONFIG_LTO_CLANG_NONE=y/CONFIG_LTO_CLANG_FULL=y/' "./common/arch/arm64/configs/gki_defconfig"
+          sed -i 's/CONFIG_LTO_CLANG_FULL=y/CONFIG_LTO_CLANG_THIN=y/' "./common/arch/arm64/configs/gki_defconfig"
+          sed -i 's/CONFIG_LTO_CLANG_NONE=y/CONFIG_LTO_CLANG_THIN=y/' "./common/arch/arm64/configs/gki_defconfig"
       - name: Set up KernelSU Next
         if: github.event.inputs.KSUNEXT_ENABLED == 'true'
         run: |
           cd kernel_workspace/kernel_platform
-          curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s c193c9fa31fe76077dfa3e71dda1d290092fba7b
+          curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next-susfs-dev
           cd KernelSU-Next
           KSU_VERSION=$(expr $(/usr/bin/git rev-list --count HEAD) "+" 10200)
           echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
@@ -138,7 +138,7 @@ jobs:
       - name: Build kernel
         run: |
           cd kernel_workspace
-          LTO=full ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
+          LTO=thin ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
       - name: Make AnyKernel3
         run: |
           git clone https://github.com/TanakaLun/AnyKernel3 --depth=1
