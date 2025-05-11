@@ -70,15 +70,15 @@ cp -r ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
 
 # 应用补丁
 cd KernelSU || exit 1
-patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-patch -p1 --forward < mksu_susfs.patch || true
-patch -p1 --forward < fix.patch || true
-patch -p1 --forward < vfs_fix.patch || true
+patch -p1 --forward --fuzz=3 < 10_enable_susfs_for_ksu.patch || true
+patch -p1 -F 3 < mksu_susfs.patch || true
+patch -p1 -F 3 < fix.patch || true
+patch -p1 -F 3 < vfs_fix.patch || true
 cd ../common || exit 1
-patch -s -p1 < 50_add_susfs_in_gki-${ANDROID_VERSION}-${KERNEL_VERSION}.patch || true
+patch -p1 --fuzz=3 < 50_add_susfs_in_gki-${ANDROID_VERSION}-${KERNEL_VERSION}.patch || true
 
 cd "$KERNEL_WORKSPACE" || exit 1
-rm common/android/abi_gki_protected_exports_*         
+rm -rf common/android/abi_gki_protected_exports_*         
 
 export OPLUS_FEATURES="OPLUS_FEATURE_BSP_DRV_INJECT_TEST=1"
 # 构建内核
