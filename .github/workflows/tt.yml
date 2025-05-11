@@ -27,7 +27,7 @@ on:
           - oneplus_pad2_v
           - oneplus_ace5
           - oneplus_13r
-          - oneplus12r_v
+          - oneplus_12r_v
           - oneplus_11r_v
           - oneplus_ace2_v
       KSU_BRANCH:
