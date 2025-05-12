@@ -96,7 +96,7 @@ jobs:
           cp ../kernel_patches/69_hide_stuff.patch ./common/
           cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
           cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
-          cd ./KernelSU-Next
+          cd ./KernelSU
           cd ../common
           patch -p1 --forward < syscall_hooks.patch
           patch -p1 < 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
@@ -147,16 +147,16 @@ jobs:
       - name: Zip AnyKernel3
         run: |
           cd ./AnyKernel3
-          zip -r AnyKernel3_KernelSU_Next_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}.zip .
+          zip -r AnyKernel3_KernelSU_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}.zip .
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: ./AnyKernel3/AnyKernel3_KernelSU_Next_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}.zip
+          files: ./AnyKernel3/AnyKernel3_KernelSU_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}.zip
           tag_name: release-${{ github.event.inputs.FEIL }}-${{ env.KSUVER }} # Include FEIL and KSUVER
-          name: Release KernelSU Next ${{ github.event.inputs.FEIL }} ${{ env.KSUVER }}
+          name: Release KernelSU ${{ github.event.inputs.FEIL }} ${{ env.KSUVER }}
           body: |
             Release for ${{ github.event.inputs.FEIL }} based on branch ${{ github.event.inputs.CPU }}
             KSU Version: ${{ env.KSUVER }}
